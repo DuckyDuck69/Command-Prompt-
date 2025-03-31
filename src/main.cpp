@@ -21,7 +21,7 @@ int main() {
       loop = false;
     }
     else if( findEcho != std::string::npos){
-      input.erase(0, echoCommand.length());
+      input.erase(0, echoCommand.length() + 1);
       std::cout<<input<<std::endl;
     }
     else{
