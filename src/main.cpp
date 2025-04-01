@@ -33,6 +33,9 @@ std::string returnPath(std::string s, std::string path, bool extractPath = false
         return result;
       }
     }
+    if(extractPath == true){
+      return "";
+    }
     result = s + ": not found";
     return result;
 }
@@ -51,12 +54,7 @@ std::string typeCheck(std::string s, std::string path){
 void executeCommand(std::vector<std::string> inputVect, std::string input, std::string path){
   std::string program = inputVect[0];   //choose only the first input to execute 
   std::string pathRoute = returnPath(program, path, true);
-  if(!pathRoute.empty()){
-    system(input.c_str());   //run the full command with all the arguments
-  }
-  else{
-    std::cout<<"Program either not found or not executable"<<std::endl;
-  }
+  system(input.c_str());   //run the full command with all the arguments
 }
 
 int main() {
