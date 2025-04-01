@@ -20,11 +20,14 @@ std::vector<std::string> splitString(const std::string& str, char delimiter){
   return result;
 } 
 
-std::string returnPath(std::string s, std::string path){
+std::string returnPath(std::string s, std::string path, bool extractPath = false){
   std::string result;
   std::vector<std::string> pathFind = splitString(path, ':');
     for(int i =0; i < pathFind.size(); i++){
       std::string fullPath = pathFind[i] + "/" + s;
+      if(extractPath == true){
+        return fullPath;
+      }
       if(std::filesystem::exists(fullPath)){
         result = s + " is " + fullPath;
         return result;
@@ -47,7 +50,7 @@ std::string typeCheck(std::string s, std::string path){
 
 void returnStatemnt(std::string input, std::string path){
   std::string result = "";
-  std::string pathRoute = returnPath(input, path);
+  std::string pathRoute = returnPath(input, path, true);
   if(access(pathRoute.c_str(), X_OK) == 0){
     system(pathRoute.c_str());
   }
@@ -70,14 +73,18 @@ int main() {
     std::string input;
     std::getline(std::cin, input);
 
-
+    //declare different type of bultin
     std::string echoCommand = "echo"; 
     std::string exitCommand = "exit 0";
     std::string typeCommand = "type";
     size_t findEcho = input.find(echoCommand);   //return a number, which is the index of the first character it found
     size_t findType = input.find(typeCommand);
 
-    int inputLength = splitString(input, ' ').size();
+    //this block below is for executing files
+    size_t inputLength = input.find(' ');
+    std::vector<std::string> inputSplit = splitString(input, ' ');
+    std::string pathExecute = inputSplit[0];   //choose only the first input to execute 
+
     const char* path = std::getenv("PATH");
 
     if(input == exitCommand){ //exit if the user type "exit 0"
@@ -92,9 +99,7 @@ int main() {
       std::cout<<typeCheck(input, path)<<std::endl;
     }
     else if(inputLength >= 2){
-      // std::cout<<"Program was passed "<<inputLength<<" args (including program name)."
-      // std::cout<<"Arg"
-      returnStatemnt(input, path);
+      returnStatemnt(input, pathExecute);
     }
     else{
       std::cout<<input<<": command not found"<<std::endl;
