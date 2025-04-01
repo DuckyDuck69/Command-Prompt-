@@ -25,10 +25,10 @@ std::string returnPath(std::string s, std::string path, bool extractPath = false
   std::vector<std::string> pathFind = splitString(path, ':');
     for(int i =0; i < pathFind.size(); i++){
       std::string fullPath = pathFind[i] + "/" + s;
-      if(extractPath == true){
+      if(std::filesystem::exists(fullPath)){
+        if(extractPath == true){
         return fullPath;
       }
-      if(std::filesystem::exists(fullPath)){
         result = s + " is " + fullPath;
         return result;
       }
@@ -48,11 +48,13 @@ std::string typeCheck(std::string s, std::string path){
     return result;
 }
 
-void returnStatemnt(std::string input, std::string path){
-  std::string result = "";
-  std::string pathRoute = returnPath(input, path, true);
-  if(access(pathRoute.c_str(), X_OK) == 0){
-    system(pathRoute.c_str());
+void executeCommand(std::string input, std::string path){
+
+  std::vector<std::string> inputSplit = splitString(input, ' ');
+  std::string program = inputSplit[0];   //choose only the first input to execute 
+  std::string pathRoute = returnPath(program, path, true);
+  if(!pathRoute.empty()){
+    system(input.c_str());   //run the full command with all the arguments
   }
   else{
     std::cout<<"Program either not found or not executable"<<std::endl;
@@ -80,11 +82,10 @@ int main() {
     size_t findEcho = input.find(echoCommand);   //return a number, which is the index of the first character it found
     size_t findType = input.find(typeCommand);
 
-    //this block below is for executing files
-    size_t inputLength = input.find(' ');
-    std::vector<std::string> inputSplit = splitString(input, ' ');
-    std::string pathExecute = inputSplit[0];   //choose only the first input to execute 
+    //this block below is for executing files condition
+    int inputLength = inputSplit.size();
 
+    //get the input path
     const char* path = std::getenv("PATH");
 
     if(input == exitCommand){ //exit if the user type "exit 0"
@@ -98,8 +99,8 @@ int main() {
       input.erase(0, typeCommand.length() + 1);
       std::cout<<typeCheck(input, path)<<std::endl;
     }
-    else if(inputLength >= 2){
-      returnStatemnt(input, pathExecute);
+    else if(inputLength >= 1){
+      executeCommand(input, path);
     }
     else{
       std::cout<<input<<": command not found"<<std::endl;
