@@ -33,7 +33,7 @@ std::string returnPath(std::string s, std::string path, bool extractPath = false
         return result;
       }
     }
-    result = s + ": not found";
+    result = "";
     return result;
 }
 
@@ -48,10 +48,8 @@ std::string typeCheck(std::string s, std::string path){
     return result;
 }
 
-void executeCommand(std::string input, std::string path){
-
-  std::vector<std::string> inputSplit = splitString(input, ' ');
-  std::string program = inputSplit[0];   //choose only the first input to execute 
+void executeCommand(std::vector<std::string> inputVect, std::string input, std::string path){
+  std::string program = inputVect[0];   //choose only the first input to execute 
   std::string pathRoute = returnPath(program, path, true);
   if(!pathRoute.empty()){
     system(input.c_str());   //run the full command with all the arguments
@@ -83,10 +81,13 @@ int main() {
     size_t findType = input.find(typeCommand);
 
     //this block below is for executing files condition
-    int inputLength = inputSplit.size();
+    std::vector<std::string> inputVect = splitString(input, ' ');
+    int inputLength = inputVect.size();
+
 
     //get the input path
-    const char* path = std::getenv("PATH");
+    const char* pathFind = std::getenv("PATH");
+    std::string path = pathFind;
 
     if(input == exitCommand){ //exit if the user type "exit 0"
       loop = false;
@@ -100,7 +101,7 @@ int main() {
       std::cout<<typeCheck(input, path)<<std::endl;
     }
     else if(inputLength >= 1){
-      executeCommand(input, path);
+      executeCommand(inputVect, input, path);
     }
     else{
       std::cout<<input<<": command not found"<<std::endl;
