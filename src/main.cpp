@@ -6,6 +6,7 @@
 #include <string>
 #include <algorithm>
 #include <filesystem>
+#include <unistd.h>
 
 std::vector<std::string> splitString(const std::string& str, char delimiter){
   std::vector<std::string> result;
@@ -18,13 +19,9 @@ std::vector<std::string> splitString(const std::string& str, char delimiter){
   return result;
 } 
 
-std::string typeCheck(std::string s, std::string path){
+std::string returnPath(std::string s, std::string path){
   std::string result;
-  if(s == "echo" || s == "exit" || s == "type"){
-    result = s + " is a shell builtin";
-  }
-  else{
-    std::vector<std::string> pathFind = splitString(path, ':');
+  std::vector<std::string> pathFind = splitString(path, ':');
     for(int i =0; i < pathFind.size(); i++){
       std::string fullPath = pathFind[i] + "/" + s;
       if(std::filesystem::exists(fullPath)){
@@ -33,8 +30,29 @@ std::string typeCheck(std::string s, std::string path){
       }
     }
     result = s + ": not found";
+    return result;
+}
+
+std::string typeCheck(std::string s, std::string path){
+  std::string result;
+  if(s == "echo" || s == "exit" || s == "type"){
+    result = s + " is a shell builtin";
+  }
+  else{
+    result = returnPath(s, path);
   }
     return result;
+}
+
+void returnStatemnt(std::string input, std::string path){
+  std::string result = "";
+  std::string pathRoute = returnPath(input, path);
+  if(access(pathRoute.c_str(), X_OK) == 0){
+    system(pathRoute.c_str());
+  }
+  else{
+    std::cout<<"Program either not found or not executable"<<std::endl;
+  }
 }
 
 int main() {
@@ -74,6 +92,7 @@ int main() {
     else{
       std::cout<<input<<": command not found"<<std::endl;
     }
+    returnStatemnt(input, path);
   }
   return 0;
 }
