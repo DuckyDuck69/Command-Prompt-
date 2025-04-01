@@ -9,7 +9,7 @@
 #include <unistd.h>
 
 std::vector<std::string> splitString(const std::string& str, char delimiter){
-  
+
   std::vector<std::string> result;
   std::stringstream ss(str);
   std::string token;
@@ -77,6 +77,7 @@ int main() {
     size_t findEcho = input.find(echoCommand);   //return a number, which is the index of the first character it found
     size_t findType = input.find(typeCommand);
 
+    int inputLength = splitString(input, ' ').size();
     const char* path = std::getenv("PATH");
 
     if(input == exitCommand){ //exit if the user type "exit 0"
@@ -90,10 +91,14 @@ int main() {
       input.erase(0, typeCommand.length() + 1);
       std::cout<<typeCheck(input, path)<<std::endl;
     }
+    else if(inputLength >= 2){
+      // std::cout<<"Program was passed "<<inputLength<<" args (including program name)."
+      // std::cout<<"Arg"
+      returnStatemnt(input, path);
+    }
     else{
       std::cout<<input<<": command not found"<<std::endl;
     }
-    returnStatemnt(input, path);
   }
   return 0;
 }
