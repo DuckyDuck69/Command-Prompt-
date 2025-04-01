@@ -33,7 +33,7 @@ std::string returnPath(std::string s, std::string path, bool extractPath = false
         return result;
       }
     }
-    result = "";
+    result = s + ": not found";
     return result;
 }
 
