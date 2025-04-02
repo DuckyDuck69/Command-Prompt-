@@ -76,9 +76,7 @@ int main() {
     //declare different type of bultin
     std::string echoCommand = "echo"; 
     std::string exitCommand = "exit 0";
-    std::string typeCommand = "type";
     size_t findEcho = input.find(echoCommand);   //return a number, which is the index of the first character it found
-    size_t findType = input.find(typeCommand);
 
     //this block below is for executing files condition
     std::vector<std::string> inputVect = splitString(input, ' ');
@@ -89,25 +87,23 @@ int main() {
     const char* pathFind = std::getenv("PATH");   //the os ma
     std::string path = pathFind;
 
-    if(input == exitCommand){ //exit if the user type "exit 0"
+    std::string command = inputVect[0]; //get the first string as a command
+    
+    if(command == exitCommand){ //exit if the user type "exit 0"
       loop = false;
     }
-    else if(input == "pwd"){   //print current working directory
+    else if(command == "pwd"){   //print current working directory
       std::cout<<std::filesystem::current_path()<<std::endl;
     }
     else if( findEcho == 0){   //declare echo command, which is to print out a string
       input.erase(0, echoCommand.length() + 1);
       std::cout<<input<<std::endl;
     }
-    else if(findType == 0){
-      input.erase(0, typeCommand.length() + 1);
-      std::cout<<typeCheck(input, path)<<std::endl;
-    }
-    else if(inputLength >= 1){
-      executeCommand(inputVect, input, path);
+    else if(command == "type" && inputLength > 1 ){
+      std::cout<<typeCheck(inputVect[1], path)<<std::endl;
     }
     else{
-      std::cout<<input<<": command not found"<<std::endl;
+      executeCommand(inputVect, input, path);
     }
   }
   return 0;
