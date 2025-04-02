@@ -42,7 +42,7 @@ std::string returnPath(std::string s, std::string path, bool extractPath = false
 
 std::string typeCheck(std::string s, std::string path){
   std::string result;
-  if(s == "echo" || s == "exit" || s == "type" || s = "pwd"){
+  if(s == "echo" || s == "exit" || s == "type" || s == "pwd"){
     result = s + " is a shell builtin";
   }
   else{
