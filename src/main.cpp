@@ -11,11 +11,11 @@
 std::vector<std::string> splitString(const std::string& str, char delimiter){
 
   std::vector<std::string> result;
-  std::stringstream ss(str);
+  std::stringstream ss(str);  //create a stringstrem 
   std::string token;
 
-  while(std::getline(ss, token, delimiter)){
-    result.push_back(token);
+  while(std::getline(ss, token, delimiter)){  //read through the stringstream and stop if meet the delimitere
+    result.push_back(token);    //add the chunk of characters into the result vector
   }
   return result;
 } 
@@ -61,9 +61,6 @@ int main() {
   // Flush after every std::cout / std:cerr
   std::cout << std::unitbuf;
   std::cerr << std::unitbuf;
-
-  // Uncomment this block to pass the first stage
-  const char* path = std::getenv("PATH");
 
   bool loop = true;
   while(loop == true){
