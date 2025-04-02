@@ -61,6 +61,7 @@ void executeCommand(std::vector<std::string> inputVect, std::string input, std::
   }
 }
 
+
 int main() {
   // Flush after every std::cout / std:cerr
   std::cout << std::unitbuf;
@@ -85,11 +86,14 @@ int main() {
 
 
     //get the input path
-    const char* pathFind = std::getenv("PATH");
+    const char* pathFind = std::getenv("PATH");   //the os ma
     std::string path = pathFind;
 
     if(input == exitCommand){ //exit if the user type "exit 0"
       loop = false;
+    }
+    else if(input == "pwd"){   //print current working directory
+      std::cout<<std::filesystem::current_path()<<std::endl;
     }
     else if( findEcho == 0){   //declare echo command, which is to print out a string
       input.erase(0, echoCommand.length() + 1);
