@@ -54,6 +54,9 @@ std::string typeCheck(std::string s, std::string path){
 void executeCommand(std::vector<std::string> inputVect, std::string input, std::string path){
   std::string program = inputVect[0];   //choose only the first input to execute 
   std::string pathRoute = returnPath(program, path, true);
+  if(pathRoute.empty()){
+    std::cout<<program<<": command not found"<< std::endl;
+  }
   system(input.c_str());   //run the full command with all the arguments
 }
 
