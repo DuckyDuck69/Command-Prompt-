@@ -56,8 +56,9 @@ void executeCommand(std::vector<std::string> inputVect, std::string input, std::
   std::string pathRoute = returnPath(program, path, true);
   if(pathRoute.empty()){
     std::cout<<program<<": command not found"<< std::endl;
+  }else{
+    system(input.c_str());   //run the full command with all the arguments
   }
-  system(input.c_str());   //run the full command with all the arguments
 }
 
 int main() {
