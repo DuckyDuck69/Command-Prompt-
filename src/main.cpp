@@ -89,7 +89,7 @@ int main() {
 
     std::string command = inputVect[0]; //get the first string as a command
     
-    if(command == exitCommand){ //exit if the user type "exit 0"
+    if(input == exitCommand){ //exit if the user type "exit 0" 
       loop = false;
     }
     else if(command == "pwd"){   //print current working directory
