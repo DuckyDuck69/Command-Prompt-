@@ -93,7 +93,7 @@ int main() {
       loop = false;
     }
     else if(command == "pwd"){   //print current working directory
-      std::cout<<std::filesystem::current_path()<<std::endl;
+      std::cout<<std::filesystem::current_path().string()<<std::endl;
     }
     else if( findEcho == 0){   //declare echo command, which is to print out a string
       input.erase(0, echoCommand.length() + 1);
