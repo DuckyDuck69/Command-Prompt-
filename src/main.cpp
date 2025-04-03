@@ -116,7 +116,7 @@ int main() {
       loop = false;
     }
     else if(command == "cd"){
-      changeDir(inputVect[1])
+      changeDir(inputVect[1]);
     }
     else if(command == "pwd"){   //print current working directory
       std::cout<<std::filesystem::current_path().string()<<std::endl;   //convert to a string to avoid formatting output
