@@ -78,11 +78,11 @@ void executeCommand(std::vector<std::string> inputVect, std::string input, std::
   }
 }
 
-void changeDir(std::string input,std::string path){
+void changeDir(std::string path){
   if(std::filesystem::exists(path)){
     std::filesystem::current_path(path);
   }else{
-    std::cout<<input<<": No such file or directory"<<std::endl;
+    std::cout<<"cd: "<<path<<": No such file or directory"<<std::endl;
   }
 }
 
@@ -118,7 +118,7 @@ int main() {
       loop = false;
     }
     else if(command == "cd"){
-      changeDir(input, inputVect[1]);
+      changeDir(inputVect[1]);
     }
     else if(command == "pwd"){   //print current working directory
       std::cout<<std::filesystem::current_path().string()<<std::endl;   //convert to a string to avoid formatting output
