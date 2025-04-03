@@ -9,7 +9,12 @@
 #include <unistd.h>
 
 std::vector<std::string> splitString(const std::string& str, char delimiter){
+  /*
+    This funtion creat a stringstream and then loop through the input string until it hits
+    the delimiter. Then, it stop and push to the result vector.
 
+    return: a vector of words
+  */
   std::vector<std::string> result;
   std::stringstream ss(str);  //create a stringstrem 
   std::string token;
@@ -21,13 +26,19 @@ std::vector<std::string> splitString(const std::string& str, char delimiter){
 } 
 
 std::string returnPath(std::string s, std::string path, bool extractPath = false){
+  /*
+   This fucntion split the path by the ":" to get specific directories
+   then it loop through each directory to find the execution path of an input
+
+   return value: valid path 
+  */
   std::string result;
   std::vector<std::string> pathFind = splitString(path, ':');
     for(int i =0; i < pathFind.size(); i++){
       std::string fullPath = pathFind[i] + "/" + s;
       if(std::filesystem::exists(fullPath)){
         if(extractPath == true){
-        return fullPath;
+          return fullPath;
       }
         result = s + " is " + fullPath;
         return result;
@@ -52,12 +63,24 @@ std::string typeCheck(std::string s, std::string path){
 }
 
 void executeCommand(std::vector<std::string> inputVect, std::string input, std::string path){
+  /*
+    This function take the first input in a sentence as the command e.g. "echo" for "echo Hello World".
+    Then it return the system executable path of the command and then execute the command.input
+
+    return: None, just executing the command
+  */
   std::string program = inputVect[0];   //choose only the first input to execute 
   std::string pathRoute = returnPath(program, path, true);
   if(pathRoute.empty()){
     std::cout<<program<<": command not found"<< std::endl;
   }else{
     system(input.c_str());   //run the full command with all the arguments
+  }
+}
+
+void changeDir(std::string path){
+  if(std::filesystem::exists(path)){
+    std::filesystem::current_path(path);
   }
 }
 
@@ -92,8 +115,11 @@ int main() {
     if(input == exitCommand){ //exit if the user type "exit 0" 
       loop = false;
     }
+    else if(command == "cd"){
+      changeDir(inputVect[1])
+    }
     else if(command == "pwd"){   //print current working directory
-      std::cout<<std::filesystem::current_path().string()<<std::endl;
+      std::cout<<std::filesystem::current_path().string()<<std::endl;   //convert to a string to avoid formatting output
     }
     else if( findEcho == 0){   //declare echo command, which is to print out a string
       input.erase(0, echoCommand.length() + 1);
