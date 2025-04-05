@@ -90,9 +90,14 @@ void changeDir(std::string path){
 
     return: none, only change dir
   */
-  if(std::filesystem::exists(path)){
-    std::filesystem::current_path(path);
-  }else{
+  if(path == "~"){
+    std::string home = getenv("HOME");  //get home directory
+    std::filesystem::current_path(home);   //change to home
+  }
+  else if(std::filesystem::exists(path)){   //filesystem also handle relative paths eg ./local/bin => user/local/bin
+    std::filesystem::current_path(path);  //change to that directory 
+  }
+  else{
     std::cout<<"cd: "<<path<<": No such file or directory"<<std::endl;
   }
 }
