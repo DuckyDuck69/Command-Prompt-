@@ -25,6 +25,34 @@ std::vector<std::string> splitString(const std::string& str, char delimiter){
   return result;
 } 
 
+std::string trimString(const std::string& str, char trim){
+/*
+    This function trim the first and the last element wanted from a string
+
+    return: trimmed string
+  */
+
+   //find the first and last index that is not the character we want to trim
+   //e.g  'hello', findFirst return iterator (like pointer) point to h and findLast returns
+   //iterator points to o
+
+  //Use lambda function because find_if_not() requires true/false
+  //findFirst iterator works forward, so no need to base() it
+  auto findFirst = std::find_if_not(str.begin(), str.end(), [trim](char c){
+    return c == trim;
+  }); 
+  //findLast iterator works backward, so we need to base() it to converts the reverse iterator 
+  //into a normal (forward) iterator, pointing just after the character wanted.
+  auto findLast = std::find_if_not(str.rbegin(), str.rend(), [trim](char c){
+    return c == trim;
+  }).base();
+  if(findFirst >= findLast){
+    return "";
+  }else{
+    return std::string(findFirst, findLast);  //return a new copy of the string using the two iterator  
+  }
+}  
+
 std::string returnPath(std::string s, std::string path, bool extractPath = false){
   /*
    This fucntion split the path by the ":" to get specific directories
@@ -118,6 +146,7 @@ int main() {
     std::string echoCommand = "echo"; 
     std::string exitCommand = "exit 0";
     size_t findEcho = input.find(echoCommand);   //return a number, which is the index of the first character it found
+    
 
     //this block below is for executing files condition
     std::vector<std::string> inputVect = splitString(input, ' ');
@@ -141,7 +170,11 @@ int main() {
     }
     else if( findEcho == 0){   //declare echo command, which is to print out a string
       input.erase(0, echoCommand.length() + 1);
-      std::cout<<input<<std::endl;
+      if(input[0] == '\''){  
+        std::cout<<trimString(input, '\'')<<std::endl;
+      }else{
+        std::cout<<input<<std::endl;
+      }
     }
     else if(command == "type" && inputLength > 1 ){  //search if the command is executable 
       std::cout<<typeCheck(inputVect[1], path)<<std::endl;
