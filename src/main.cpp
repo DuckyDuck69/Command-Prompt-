@@ -52,6 +52,12 @@ std::string returnPath(std::string s, std::string path, bool extractPath = false
 }
 
 std::string typeCheck(std::string s, std::string path){
+  /*
+    This function check if a command is a builtin command or not, if not then return the path to the comamnd
+    if it is executable
+
+    return: a string/path
+  */
   std::string result;
   if(s == "echo" || s == "exit" || s == "type" || s == "pwd"){
     result = s + " is a shell builtin";
@@ -65,7 +71,7 @@ std::string typeCheck(std::string s, std::string path){
 void executeCommand(std::vector<std::string> inputVect, std::string input, std::string path){
   /*
     This function take the first input in a sentence as the command e.g. "echo" for "echo Hello World".
-    Then it return the system executable path of the command and then execute the command.input
+    Then it return the system executable path of the command and then execute the command.
 
     return: None, just executing the command
   */
@@ -79,6 +85,11 @@ void executeCommand(std::vector<std::string> inputVect, std::string input, std::
 }
 
 void changeDir(std::string path){
+  /*
+    This function change the current directory to the designated one
+
+    return: none, only change dir
+  */
   if(std::filesystem::exists(path)){
     std::filesystem::current_path(path);
   }else{
@@ -127,7 +138,7 @@ int main() {
       input.erase(0, echoCommand.length() + 1);
       std::cout<<input<<std::endl;
     }
-    else if(command == "type" && inputLength > 1 ){
+    else if(command == "type" && inputLength > 1 ){  //search if the command is executable 
       std::cout<<typeCheck(inputVect[1], path)<<std::endl;
     }
     else{
