@@ -6,7 +6,6 @@
 #include <string>
 #include <algorithm>
 #include <filesystem>
-#include <unistd.h>
 
 std::vector<std::string> splitString(const std::string& str, char delimiter){
   /*
@@ -20,7 +19,9 @@ std::vector<std::string> splitString(const std::string& str, char delimiter){
   std::string token;
 
   while(std::getline(ss, token, delimiter)){  //read through the stringstream and stop if meet the delimitere
-    result.push_back(token);    //add the chunk of characters into the result vector
+    if(!token.empty()){
+      result.push_back(token);    //add the chunk of characters into the result vector
+    }
   }
   return result;
 } 
@@ -62,7 +63,7 @@ std::string returnPath(std::string s, std::string path, bool extractPath = false
   */
   std::string result;
   std::vector<std::string> pathFind = splitString(path, ':');
-    for(int i =0; i < pathFind.size(); i++){
+    for(size_t i =0; i < pathFind.size(); i++){
       std::string fullPath = pathFind[i] + "/" + s;
       if(std::filesystem::exists(fullPath)){
         if(extractPath == true){
@@ -143,10 +144,7 @@ int main() {
     std::getline(std::cin, input);
 
     //declare different type of bultin
-    std::string echoCommand = "echo"; 
-    std::string exitCommand = "exit 0";
-    size_t findEcho = input.find(echoCommand);   //return a number, which is the index of the first character it found
-    
+    std::string exitCommand = "exit 0";    
 
     //this block below is for executing files condition
     std::vector<std::string> inputVect = splitString(input, ' ');
@@ -154,7 +152,7 @@ int main() {
 
 
     //get the input path
-    const char* pathFind = std::getenv("PATH");   //the os ma
+    const char* pathFind = std::getenv("PATH");   //get the path from the OS
     std::string path = pathFind;
 
     std::string command = inputVect[0]; //get the first string as a command
@@ -168,13 +166,16 @@ int main() {
     else if(command == "pwd"){   //print current working directory
       std::cout<<std::filesystem::current_path().string()<<std::endl;   //convert to a string to avoid formatting output
     }
-    else if( findEcho == 0){   //declare echo command, which is to print out a string
-      input.erase(0, echoCommand.length() + 1);
-      if(input[0] == '\''){  
-        std::cout<<trimString(input, '\'')<<std::endl;
-      }else{
-        std::cout<<input<<std::endl;
+    else if(command == "echo"){   //declare echo command, which is to print out a string
+      std::string printOut = "";
+      for(size_t i = 1; i < inputVect.size(); i++){
+        printOut += inputVect[i];
+        if(i < inputVect.size() - 1){
+          printOut += " ";
+        }
       }
+      std::string output = trimString(printOut, '\'');
+      std::cout<<output<<std::endl;
     }
     else if(command == "type" && inputLength > 1 ){  //search if the command is executable 
       std::cout<<typeCheck(inputVect[1], path)<<std::endl;
