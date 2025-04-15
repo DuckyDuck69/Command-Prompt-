@@ -27,17 +27,41 @@ std::vector<std::string> splitString(const std::string& str, char delimiter){
 } 
 
 std::vector<std::string> parseInput(const std::string& input){
+  /*
+    This function take the input and parse them into proper tokens, handling single quotes, double quotes, etc.input
+    
+    return: a vector of valid tokens
+  */
   std::vector<std::string> token;
   std::string current;
   bool hitSingleQuote = false;
+  bool hitDoubleQuote = false;
+  bool hitBackSplash = false;
 
   for(size_t i = 0; i < input.length(); i++){
     char c = input[i];
     //first, check if char c is a single quote
+    if(c == '\\'){
+      hitBackSplash = true;
+      continue;
+    }
+    if(hitBackSplash){
+      if(c == '\\' || c == '$' || c == '\"'){
+        std::string escapeChar;
+        escapeChar += c;
+        token.push_back(escapeChar);
+        hitBackSplash = false;
+        continue;
+      }
+    }
     if(c == '\''){
       //if we are inside a single quote, now we are out and vice versa
       hitSingleQuote = !hitSingleQuote; 
       continue;  //skip this iteration
+    //check if char c is a double quote
+    }else if(c == '\"'){
+      hitDoubleQuote = !hitDoubleQuote;
+      continue;
     }
     //second, check if c is space or not 
     //if we are not inside the single quote, push current in token 
@@ -46,7 +70,13 @@ std::vector<std::string> parseInput(const std::string& input){
         token.push_back(current);
         current.erase();  //erase current, prepare for the next token
       }
-    }else{
+    }else if(std::isspace(c) && !hitDoubleQuote ){
+      if(!current.empty()){
+        token.push_back(current);
+        current.erase(); 
+      }
+    }
+    else{
       current += c;  //add the character into the string
     }
   }
