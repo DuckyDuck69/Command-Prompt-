@@ -65,15 +65,10 @@ std::vector<std::string> parseInput(const std::string& input){
     }
     //second, check if c is space or not 
     //if we are not inside the single quote, push current in token 
-    if(std::isspace(c) && !hitSingleQuote){
+    if(std::isspace(c) && !hitSingleQuote && !hitDoubleQuote){
       if(!current.empty()){
         token.push_back(current);
         current.erase();  //erase current, prepare for the next token
-      }
-    }else if(std::isspace(c) && !hitDoubleQuote ){
-      if(!current.empty()){
-        token.push_back(current);
-        current.erase(); 
       }
     }
     else{
