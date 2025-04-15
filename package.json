@@ -1,0 +1,17 @@
+{
+  "name": "codecrafters-shell-cpp",
+  "version": "1.0.0",
+  "description": "[![progress-banner](https://backend.codecrafters.io/progress/shell/eaa8a73d-2e64-4503-a1c0-0621dde292c9)](https://app.codecrafters.io/users/codecrafters-bot?r=2qF)",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server/server.js"
+  },
+  "keywords": [],
+  "author": "Duc Phan",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0",
+    "nodemon": "^3.1.9",
+    "socket.io": "^4.8.1"
+  }
+}
