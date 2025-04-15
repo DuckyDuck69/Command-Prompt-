@@ -58,6 +58,7 @@ std::vector<std::string> parseInput(const std::string& input){
       //if we are inside a double quote, we have to add it 
       if(hitDoubleQuote){
         current += c;
+        continue;
       }
       //if we are inside a single quote, now we are out and vice versa
       else{
