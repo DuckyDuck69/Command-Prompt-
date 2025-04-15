@@ -64,12 +64,15 @@ std::vector<std::string> parseInput(const std::string& input){
       continue;
     }
     //second, check if c is space or not 
-    //if we are not inside the single quote, push current in token 
+    //if we are not inside the single quote and a double quote, push current in token 
     if(std::isspace(c) && !hitSingleQuote && !hitDoubleQuote){
       if(!current.empty()){
         token.push_back(current);
         current.erase();  //erase current, prepare for the next token
       }
+    }
+    else if(c == '\'' && hitDoubleQuote){
+      current += c;
     }
     else{
       current += c;  //add the character into the string
