@@ -55,9 +55,15 @@ std::vector<std::string> parseInput(const std::string& input){
       }
     }
     if(c == '\''){
+      //if we are inside a double quote, we have to add it 
+      if(hitDoubleQuote){
+        current += c;
+      }
       //if we are inside a single quote, now we are out and vice versa
-      hitSingleQuote = !hitSingleQuote; 
-      continue;  //skip this iteration
+      else{
+        hitSingleQuote = !hitSingleQuote; 
+        continue;  //skip this iteration
+      }
     //check if char c is a double quote
     }else if(c == '\"'){
       hitDoubleQuote = !hitDoubleQuote;
@@ -70,9 +76,6 @@ std::vector<std::string> parseInput(const std::string& input){
         token.push_back(current);
         current.erase();  //erase current, prepare for the next token
       }
-    }
-    else if(c == '\'' && hitDoubleQuote){
-      current += c;
     }
     else{
       current += c;  //add the character into the string
