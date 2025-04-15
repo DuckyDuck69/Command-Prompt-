@@ -26,6 +26,37 @@ std::vector<std::string> splitString(const std::string& str, char delimiter){
   return result;
 } 
 
+std::vector<std::string> parseInput(const std::string& input){
+  std::vector<std::string> token;
+  std::string current;
+  bool hitSingleQuote = false;
+
+  for(size_t i = 0; i < input.length(); i++){
+    char c = input[i];
+    //first, check if char c is a single quote
+    if(c == '\''){
+      //if we are inside a single quote, now we are out and vice versa
+      hitSingleQuote = !hitSingleQuote; 
+      continue;  //skip this iteration
+    }
+    //second, check if c is space or not 
+    //if we are not inside the single quote, push current in token 
+    if(std::isspace(c) && !hitSingleQuote){
+      if(!current.empty()){
+        token.push_back(current);
+        current.erase();  //erase current, prepare for the next token
+      }
+    }else{
+      current += c;  //add the character into the string
+    }
+  }
+  //there might the words left after the iteration, push them into the vector
+  if(!current.empty()){
+    token.push_back(current);
+  }
+  return token;
+}
+
 std::string trimString(const std::string& str, char trim){
 /*
     This function trim the first and the last element wanted from a string
@@ -147,7 +178,7 @@ int main() {
     std::string exitCommand = "exit 0";    
 
     //this block below is for executing files condition
-    std::vector<std::string> inputVect = splitString(input, ' ');
+    std::vector<std::string> inputVect = parseInput(input);
     int inputLength = inputVect.size();
 
 
