@@ -41,9 +41,6 @@ std::vector<std::string> parseInput(const std::string& input){
   for(size_t i = 0; i < input.length(); i++){
     char c = input[i];
     //first, check if char c hit a backslash
-    if(c == '\\'){
-      hitBackSplash = true;
-    }
     if(hitBackSplash){
       if(c == '\\' || c == '$' || c == '\"' || c == '\'' || c == ' '){
         current += c;
@@ -51,7 +48,10 @@ std::vector<std::string> parseInput(const std::string& input){
         continue;
       }
     }
-    if(c == '\''){
+    if(c == '\\'){
+      hitBackSplash = true;
+    }
+    else if(c == '\''){
       //if we are inside a double quote, we have to add it 
       if(hitDoubleQuote){
         current += c;
