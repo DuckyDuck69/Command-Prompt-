@@ -43,7 +43,6 @@ std::vector<std::string> parseInput(const std::string& input){
     //first, check if char c hit a backslash
     if(c == '\\'){
       hitBackSplash = true;
-      continue;
     }
     if(hitBackSplash){
       if(c == '\\' || c == '$' || c == '\"' || c == '\'' || c == ' '){
