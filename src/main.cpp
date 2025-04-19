@@ -40,12 +40,7 @@ std::vector<std::string> parseInput(const std::string& input){
 
   for(size_t i = 0; i < input.length(); i++){
     char c = input[i];
-    //first, check if we are inside single quote since it is prioritized
-    if(c == '\'' && !hitDoubleQuote){
-        hitSingleQuote = !hitSingleQuote; 
-    }
-    //check if char c hit a backslash
-    else if(hitBackSplash){
+    if(hitBackSplash){
       if(c == '\\' || c == '$' || c == '\"' || c == '\'' || std::isspace(c) || c == 'n'){
         current += c;
       }
@@ -58,14 +53,14 @@ std::vector<std::string> parseInput(const std::string& input){
       hitBackSplash = false;
     }
     else if(c == '\\' && !hitSingleQuote){
-      hitBackSplash = true;
+      hitBackSplash = !hitBackSplash;
     }
-    //check if char c is a double quote
+    else if(c == '\'' && !hitDoubleQuote){
+      hitSingleQuote = !hitSingleQuote;
+    }
     else if(c == '\"' && !hitSingleQuote){
       hitDoubleQuote = !hitDoubleQuote;
     }
-    //second, check if c is space or not 
-    //if we are not inside the single quote and a double quote, push current in token 
     else if(std::isspace(c) && !hitSingleQuote && !hitDoubleQuote){
       if(!current.empty()){
         token.push_back(current);
