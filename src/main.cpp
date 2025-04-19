@@ -41,14 +41,14 @@ std::vector<std::string> parseInput(const std::string& input){
   for(size_t i = 0; i < input.length(); i++){
     char c = input[i];
     //first, check if char c hit a backslash
-    if(c == '\\'){
-      hitBackSplash = true;
-    }
-    else if(hitBackSplash){
+    if(hitBackSplash){
       if(c == '\\' || c == '$' || c == '\"' || c == '\'' || c == ' '){
         current += c;
         hitBackSplash = false;
       }
+    }
+    else if(c == '\\'){
+      hitBackSplash = true;
     }
     else if(c == '\''){
       //if we are inside a double quote, we have to add it 
