@@ -172,6 +172,7 @@ void executeCommand(std::vector<std::string> inputVect, std::string input, std::
   if(pathRoute.empty()){
     std::cout<<program<<": command not found"<< std::endl;
   }else{
+    //convert to c_str( because system only deals with c string 
     system(input.c_str());   //run the full command with all the arguments
   }
 }
