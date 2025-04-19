@@ -53,10 +53,13 @@ std::vector<std::string> parseInput(const std::string& input){
     }
     //check if char c hit a backslash
     else if(hitBackSplash){
-      if(!hitSingleQuote){
-        if(c == '\\' || c == '$' || c == '\"' || c == '\'' || std::isspace(c) || c == 'n'){
-          current += c;
-        }
+      if(hitSingleQuote){
+        //keep everything inside a single quote
+        current += '\\';
+        current += c;
+      }
+      else if(c == '\\' || c == '$' || c == '\"' || c == '\'' || std::isspace(c) || c == 'n'){
+        current += c;
       }
       else {
         //if a character after \ is not special, add the backslash and the char because me 
