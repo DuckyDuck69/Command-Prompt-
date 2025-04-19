@@ -46,7 +46,7 @@ std::vector<std::string> parseInput(const std::string& input){
       continue;
     }
     if(hitBackSplash){
-      if(c == '\\' || c == '$' || c == '\"' || c == '\''){
+      if(c == '\\' || c == '$' || c == '\"' || c == '\'' || c == ' '){
         current += c;
         hitBackSplash = false;
         continue;
