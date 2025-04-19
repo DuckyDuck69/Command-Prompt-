@@ -42,15 +42,15 @@ std::vector<std::string> parseInput(const std::string& input){
     char c = input[i];
     //first, check if char c hit a backslash
     if(hitBackSplash){
-      if(c == '\\' || c == '$' || c == '\"' || c == '\'' || c == ' '){
+      if(c == '\\' || c == '$' || c == '\"' || c == '\'' || std::isspace(c)){
         current += c;
-        hitBackSplash = false;
       }
       else {
         //if a character after \ is not special, add the backslash and the char
         current += '\\';
         current += c;
-    }
+      }
+      hitBackSplash = false;
     }
     else if(c == '\\'){
       hitBackSplash = true;
