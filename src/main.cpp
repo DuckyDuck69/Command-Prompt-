@@ -42,7 +42,7 @@ std::vector<std::string> parseInput(const std::string& input){
     char c = input[i];
     //first, check if char c hit a backslash
     if(hitBackSplash){
-      if(c == '\\' || c == '$' || c == '\"' || c == '\'' || std::isspace(c)){
+      if(c == '\\' || c == '$' || c == '\"' || c == '\'' || std::isspace(c) || c == 'n'){
         current += c;
       }
       else {
