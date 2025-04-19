@@ -41,35 +41,31 @@ std::vector<std::string> parseInput(const std::string& input){
   for(size_t i = 0; i < input.length(); i++){
     char c = input[i];
     //first, check if char c hit a backslash
-    if(hitBackSplash){
+    if(c == '\\'){
+      hitBackSplash = true;
+    }
+    else if(hitBackSplash){
       if(c == '\\' || c == '$' || c == '\"' || c == '\'' || c == ' '){
         current += c;
         hitBackSplash = false;
-        continue;
       }
-    }
-    if(c == '\\'){
-      hitBackSplash = true;
     }
     else if(c == '\''){
       //if we are inside a double quote, we have to add it 
       if(hitDoubleQuote){
         current += c;
-        continue;
       }
       //if we are inside a single quote, now we are out and vice versa
       else{
         hitSingleQuote = !hitSingleQuote; 
-        continue;  //skip this iteration
       }
     //check if char c is a double quote
     }else if(c == '\"'){
       hitDoubleQuote = !hitDoubleQuote;
-      continue;
     }
     //second, check if c is space or not 
     //if we are not inside the single quote and a double quote, push current in token 
-    if(std::isspace(c) && !hitSingleQuote && !hitDoubleQuote){
+    else if(std::isspace(c) && !hitSingleQuote && !hitDoubleQuote){
       if(!current.empty()){
         token.push_back(current);
         current.erase();  //erase current, prepare for the next token
