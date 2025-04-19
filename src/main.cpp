@@ -236,8 +236,7 @@ int main() {
           printOut += " ";
         }
       }
-      std::string output = trimString(printOut, '\'');
-      std::cout<<output<<std::endl;
+      std::cout<<printOut<<std::endl;
     }
     else if(command == "type" && inputLength > 1 ){  //search if the command is executable 
       std::cout<<typeCheck(inputVect[1], path)<<std::endl;
