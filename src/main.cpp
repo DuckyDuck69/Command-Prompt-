@@ -41,16 +41,16 @@ std::vector<std::string> parseInput(const std::string& input){
   for(size_t i = 0; i < input.length(); i++){
     char c = input[i];
     //first, check if char c is a single quote
-    if(c == '\\'){
-      hitBackSplash = true;
-      continue;
-    }
     if(hitBackSplash){
       if(c == '\\' || c == '$' || c == '\"' || c == ' '){
         current += c;
         hitBackSplash = false;
         continue;
       }
+    }
+    if(c == '\\'){
+      hitBackSplash = true;
+      continue;
     }
     if(c == '\''){
       //if we are inside a double quote, we have to add it 
