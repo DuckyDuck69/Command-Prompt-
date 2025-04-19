@@ -41,18 +41,8 @@ std::vector<std::string> parseInput(const std::string& input){
   for(size_t i = 0; i < input.length(); i++){
     char c = input[i];
     //first, check if we are inside single quote since it is prioritized
-    if(c == '\''){
-      //if we are inside a double quote, we have to add it 
-      if(hitDoubleQuote){
-        current += c;
-      }
-      else if(hitBackSplash){
-        hitSingleQuote = false;
-      }
-      //if we are inside a single quote, now we are out and vice versa
-      else{
+    if(c == '\'' && !hitDoubleQuote){
         hitSingleQuote = !hitSingleQuote; 
-      }
     }
     //check if char c hit a backslash
     else if(hitBackSplash){
