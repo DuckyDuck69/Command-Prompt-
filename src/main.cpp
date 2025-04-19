@@ -46,6 +46,11 @@ std::vector<std::string> parseInput(const std::string& input){
         current += c;
         hitBackSplash = false;
       }
+      else {
+        //if a character after \ is not special, add the backslash and the char
+        current += '\\';
+        current += c;
+    }
     }
     else if(c == '\\'){
       hitBackSplash = true;
