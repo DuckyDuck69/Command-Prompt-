@@ -72,10 +72,12 @@ std::vector<std::string> parseInput(const std::string& input){
     }
     //check if char c is a double quote
     else if(c == '\"'){
-      if(!hitSingleQuote){
-        hitDoubleQuote = false;
+      if(hitSingleQuote){
+        current += c;
       }
-      hitDoubleQuote = !hitDoubleQuote;
+      else{
+        hitDoubleQuote = !hitDoubleQuote;
+      }
     }
     //second, check if c is space or not 
     //if we are not inside the single quote and a double quote, push current in token 
