@@ -41,12 +41,13 @@ std::vector<std::string> parseInput(const std::string& input){
   for(size_t i = 0; i < input.length(); i++){
     char c = input[i];
     //first, check if char c hit a backslash
-    if(hitBackSplash){
+    if(hitBackSplash && !hitSingleQuote){
       if(c == '\\' || c == '$' || c == '\"' || c == '\'' || std::isspace(c) || c == 'n'){
         current += c;
       }
       else {
-        //if a character after \ is not special, add the backslash and the char
+        //if a character after \ is not special, add the backslash and the char because me 
+        //missed the backslash earlier
         current += '\\';
         current += c;
       }
