@@ -72,6 +72,9 @@ std::vector<std::string> parseInput(const std::string& input){
     }
     //check if char c is a double quote
     else if(c == '\"'){
+      if(!hitSingleQuote){
+        hitDoubleQuote = false;
+      }
       hitDoubleQuote = !hitDoubleQuote;
     }
     //second, check if c is space or not 
