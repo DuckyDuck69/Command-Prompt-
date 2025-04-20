@@ -181,6 +181,8 @@ void executeCommand(std::vector<std::string> inputVect, std::string input, std::
         escapeArg += "\\\"";
       }else if(c == '\''){
         escapeArg += "\\\'";
+      }else if(c == '\\'){ 
+        escapeArg += "\\\\";
       }
       else {
         escapeArg += c;
