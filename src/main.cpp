@@ -175,11 +175,15 @@ void executeCommand(std::vector<std::string> inputVect, std::string input, std::
                         program.find('\"') != std::string::npos ||
                         program.find('\\') != std::string::npos);
         
-  commandLine += program;
-
+  if(needToBeQuoted){
+    commandLine += "\"" + program + "\"";
+  }
+  else{
+    commandLine += program;
+  }
+  
   //once we have the executable command, add the arguments to run
   for(size_t i =1; i<inputVect.size(); i++){
-    commandLine += " ";
     commandLine += "\"" + inputVect[i] + "\"";   //safely quote arguments even if they include quotes
   }
   //convert to c_str( because system only deals with c string 
