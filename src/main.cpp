@@ -161,12 +161,6 @@ void executeCommand(std::vector<std::string> inputVect, std::string input, std::
     return: None, just executing the command
   */
   std::string program = inputVect[0];   //choose only the first input to execute 
-  std::string pathRoute = returnPath(program, path, true);
-  if(pathRoute.empty()){
-    std::cout<<program<<": command not found"<< std::endl;
-    return;
-  }
-  
   std::string commandLine;
   //if the executable name (program) contains at least one of the following: space,
   //single quote, doule quote, backslash, then it need to be quoted
