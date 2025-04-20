@@ -184,6 +184,7 @@ void executeCommand(std::vector<std::string> inputVect, std::string input, std::
   
   //once we have the executable command, add the arguments to run
   for(size_t i =1; i<inputVect.size(); i++){
+    commandLine += " ";
     commandLine += "\"" + inputVect[i] + "\"";   //safely quote arguments even if they include quotes
   }
   //convert to c_str( because system only deals with c string 
