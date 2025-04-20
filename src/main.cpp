@@ -161,9 +161,12 @@ void executeCommand(std::vector<std::string> inputVect, std::string input, std::
     return: None, just executing the command
   */
  if(inputVect.empty()) return;
- 
+
   std::string program = inputVect[0];   //choose only the first input to execute 
+
   std::string commandLine;
+  std::string escapeArg;
+
   //if the executable name (program) contains at least one of the following: space,
   //single quote, doule quote, backslash, then it need to be quoted
   bool needToBeQuoted = (program.find(' ') != std::string::npos || 
@@ -172,7 +175,12 @@ void executeCommand(std::vector<std::string> inputVect, std::string input, std::
                         program.find('\\') != std::string::npos);
         
   if(needToBeQuoted){
-    commandLine += "\"" + program + "\"";
+    //escape any double quote in the program 
+    for(char c: program){
+      if (c == '\"') escapeArg += "\\\"";
+      else escapeArg += c;
+    }
+    commandLine += "\"" + escapeArg + "\"";
   }
   else{
     commandLine += program;
