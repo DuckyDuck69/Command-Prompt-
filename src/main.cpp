@@ -165,7 +165,6 @@ void executeCommand(std::vector<std::string> inputVect, std::string input, std::
   std::string program = inputVect[0];   //choose only the first input to execute 
 
   std::string commandLine;
-  std::string escapeArg;
 
   //if the executable name (program) contains at least one of the following: space,
   //single quote, doule quote, backslash, then it need to be quoted
@@ -176,6 +175,7 @@ void executeCommand(std::vector<std::string> inputVect, std::string input, std::
         
   if(needToBeQuoted){
     //escape any double quote in the program 
+    std::string escapeArg = "";
     for(char c: program){
       if (c == '\"') escapeArg += "\\\"";
       else escapeArg += c;
