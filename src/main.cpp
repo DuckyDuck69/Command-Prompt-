@@ -160,6 +160,8 @@ void executeCommand(std::vector<std::string> inputVect, std::string input, std::
 
     return: None, just executing the command
   */
+ if(inputVect.empty()) return;
+ 
   std::string program = inputVect[0];   //choose only the first input to execute 
   std::string commandLine;
   //if the executable name (program) contains at least one of the following: space,
