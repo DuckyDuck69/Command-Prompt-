@@ -176,7 +176,7 @@ void executeCommand(std::vector<std::string> inputVect, std::string input, std::
                         program.find('\\') != std::string::npos);
         
   if(needToBeQuoted){
-    commandLine += "\"" + program + "\"";
+    commandLine += "\'" + program + "\'";
   }
   else{
     commandLine += program;
