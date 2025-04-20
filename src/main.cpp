@@ -177,8 +177,14 @@ void executeCommand(std::vector<std::string> inputVect, std::string input, std::
     //escape any double quote in the program 
     std::string escapeArg = "";
     for(char c: program){
-      if (c == '\"') escapeArg += "\\\"";
-      else escapeArg += c;
+      if (c == '\"'){
+        escapeArg += "\\\"";
+      }else if(c == '\''){
+        escapeArg += "\\\'";
+      }
+      else {
+        escapeArg += c;
+      }
     }
     commandLine += "\"" + escapeArg + "\"";
   }
