@@ -39,9 +39,13 @@ std::vector<std::string> parseInput(const std::string& input){
   bool hitBackSplash = false;
 
   for(size_t i = 0; i < input.length(); i++){
+    //order: 
+    //inside single quote: double quote and backslash have no special meaning
+    //inside double quote: single quote has no special meaning, backslash escape important character only
+
     char c = input[i];
     if(hitBackSplash){
-      if(c == '\\' || c == '$' || c == '\"' || c == '\'' || std::isspace(c) || c == 'n'){
+      if(c == '\\' || c == '$' || c == '\"' || c == '\'' || std::isspace(c) || c == 'n' || c == 't'){
         current += c;
       }
       else {
@@ -52,10 +56,10 @@ std::vector<std::string> parseInput(const std::string& input){
       }
       hitBackSplash = false;
     }
-    else if(c == '\\' && !hitSingleQuote){
+    else if(c == '\\' && !hitSingleQuote){ //backslash only lose functionality inside single quote
       hitBackSplash = !hitBackSplash;
     }
-    else if(c == '\'' && !hitDoubleQuote){
+    else if(c == '\'' && !hitDoubleQuote){  
       hitSingleQuote = !hitSingleQuote;
     }
     else if(c == '\"' && !hitSingleQuote){
@@ -160,16 +164,36 @@ void executeCommand(std::vector<std::string> inputVect, std::string input, std::
   std::string pathRoute = returnPath(program, path, true);
   if(pathRoute.empty()){
     std::cout<<program<<": command not found"<< std::endl;
-  }else{
-    //convert to c_str( because system only deals with c string 
-    system(input.c_str());   //run the full command with all the arguments
+    return;
   }
+  
+  std::string commandLine;
+  //if the executable name (program) contains at least one of the following: space,
+  //single quote, doule quote, backslash, then it need to be quoted
+  bool needToBeQuoted = (program.find(' ') != std::string::npos || 
+                        program.find('\'') != std::string::npos || 
+                        program.find('\"') != std::string::npos ||
+                        program.find('\\') != std::string::npos);
+        
+  if(needToBeQuoted){
+    commandLine += "\"" + program + "\"";
+  }
+  else{
+    commandLine += program;
+  }
+  //once we have the command to run, add the arguments to run
+  for(size_t i =1; i<inputVect.size(); i++){
+    commandLine += " ";
+    commandLine += "\"" + inputVect[i] + "\"";   //safely quote arguments even if they include quotes
+  }
+  //convert to c_str( because system only deals with c string 
+  system(commandLine.c_str());   //run the full command with all the arguments
 }
 
 void changeDir(std::string path){
   /*
     This function change the current directory to the designated one
-
+    
     return: none, only change dir
   */
   if(path == "~"){
