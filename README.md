@@ -1,4 +1,4 @@
-Command Prompt — README
+UNIX-like Command Prompt 
 
 Introduction
 A lightweight, POSIX-style shell written in C++. It runs external programs, supports a few built-ins, and serves as a learn-by-building project for systems and process control.
