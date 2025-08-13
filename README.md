@@ -1,34 +1,21 @@
-[![progress-banner](https://backend.codecrafters.io/progress/shell/eaa8a73d-2e64-4503-a1c0-0621dde292c9)](https://app.codecrafters.io/users/codecrafters-bot?r=2qF)
+Command Prompt — README
 
-This is a starting point for C++ solutions to the
-["Build Your Own Shell" Challenge](https://app.codecrafters.io/courses/shell/overview).
+Introduction
+A lightweight, POSIX-style shell written in C++. It runs external programs, supports a few built-ins, and serves as a learn-by-building project for systems and process control.
 
-In this challenge, you'll build your own POSIX compliant shell that's capable of
-interpreting shell commands, running external programs and builtin commands like
-cd, pwd, echo and more. Along the way, you'll learn about shell command parsing,
-REPLs, builtin commands, and more.
+Functionality
+- Interactive prompt (REPL): read command, execute, print result.
+- Launch external programs via $PATH lookup.
+- Built-ins handled in-process: cd, pwd, echo, exit.
+- Basic tokenization (args, whitespace; room to extend for quotes).
+- Foundation for I/O redirection (>, >>, <) and pipes (|) as next steps.
 
-**Note**: If you're viewing this repo on GitHub, head over to
-[codecrafters.io](https://codecrafters.io) to try the challenge.
+Purpose
+Practice core shell concepts—parsing, process creation, environment handling, and minimal UX—without heavy frameworks. It’s meant as a stepping stone toward a more comprehensive shell and a portfolio piece that demonstrates comfort with low-level OS primitives.
 
-# Passing the first stage
-
-The entry point for your `shell` implementation is in `src/main.cpp`. Study and
-uncomment the relevant code, and push your changes to pass the first stage:
-
-```sh
-git commit -am "pass 1st stage" # any msg
-git push origin master
-```
-
-Time to move on to the next stage!
-
-# Stage 2 & beyond
-
-Note: This section is for stages 2 and beyond.
-
-1. Ensure you have `cmake` installed locally
-1. Run `./your_program.sh` to run your program, which is implemented in
-   `src/main.cpp`.
-1. Commit your changes and run `git push origin master` to submit your solution
-   to CodeCrafters. Test output will be streamed to your terminal.
+How it’s implemented (brief)
+1) REPL: loop reading a line from stdin, skip empty/whitespace lines.
+2) Tokenize: split into argv tokens; detect built-in vs external.
+3) Built-ins: execute directly in the parent process (e.g., change cwd for cd).
+4) External commands: resolve via $PATH, create a child process, exec the program, and wait in the parent for completion; propagate exit status.
+5) (Optional next steps) Redirection: open files and dup2 to stdin/stdout/stderr before exec. Pipes: create pipe(), fork producer/consumer, wire fds with dup2, close unused ends, then wait.
